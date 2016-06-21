@@ -1,0 +1,49 @@
+<dom-module id="ecda-gadget">
+
+    <style>
+        .outdiv {
+            margin: 20px;
+        }
+    </style>
+
+
+    <template>
+        <div class="outdiv">
+
+            <paper-card heading="Gadget {{canvasJson.gadgetTitle    }}  "
+                        image=""
+             elevation="4 " animated-shadow="true ">
+            <div class="card-content ">
+                <paper-slider min="10 " max="200 " value="110 "></paper-slider>
+                <paper-input label="Type stuff here "></paper-input>
+
+            </div>
+            <div class="card-actions ">
+
+            </div>
+            </paper-card>
+
+        </div>
+
+    </template>
+    <script>
+        Polymer({
+            is: 'ecda-gadget',
+            properties: {
+                jsondata: String,
+                canvasStr: String,
+                canvasJson: {
+                    type: Object,
+                    value: "haha"
+                },
+                notify: true
+
+            },
+            ready: function () {
+                logThis("this.canvasJSON1 -- " + this.canvasjson)
+            }
+        });
+    </script>
+
+
+</dom-module>

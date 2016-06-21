@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>CDC Epi Cloud Data Analytics</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Polymer Starter Kit">
+    <link rel="apple-touch-icon" href="images/touch/apple-touch-icon.png">
+
+
+    <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+
+    <link rel="import" href="bower_components/polymer/polymer.html"/>
+
+    <link rel="import"
+          href="bower_components/iron-demo-helpers/demo-snippet.html">
+    <link rel="import"
+          href="bower_components/iron-demo-helpers/demo-pages-shared-styles.html">
+
+    <link rel="import" href="bower_components/iron-collapse/iron-collapse.html">
+    <link rel="import" href="bower_components/iron-icons/iron-icons.html">
+    <link rel="import" href="bower_components/iron-meta/iron-meta.html">
+    <link rel="import"
+          href="bower_components/iron-icons/communication-icons.html">
+    <link rel="import" href="bower_components/iron-icons/hardware-icons.html">
+    <link rel="import" href="bower_components/iron-icons/social-icons.html">
+    <link rel="import"
+          href="bower_components/iron-flex-layout/iron-flex-layout.html">
+    <link rel="import" href="bower_components/paper-button/paper-button.html">
+    <link rel="import"
+          href="bower_components/paper-checkbox/paper-checkbox.html">
+    <link rel="import"
+          href="bower_components/paper-icon-button/paper-icon-button.html">
+    <link rel="import" href="bower_components/paper-styles/color.html">
+    <link rel="import" href="bower_components/paper-styles/typography.html">
+    <link rel="import" href="bower_components/paper-card/paper-card.html">
+    <link rel="import" href="bower_components/paper-input/paper-input.html">
+    <link rel="import" href="bower_components/paper-slider/paper-slider.html">
+    <link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
+    <link rel="import" href="bower_components/iron-image/iron-image.html">
+    <link rel="import" href="bower_components/paper-dialog/paper-dialog.html">
+    <link rel="import" href="bower_components/neon-animation/neon-animations.html">
+    <link rel="import" href="bower_components/paper-item/paper-item.html">
+
+
+    <!--<link rel="import" href="ecda-container.html" />-->
+
+    <link rel="import" href="ecda-app.html"/>
+
+
+
+    <script type="text/javascript" src="app_start.js"></script>
+
+
+</head>
+<body  onload="app_load(  )">
+
+
+
+<ecda-app></ecda-app>
+
+
+<script>
+    function app_load(  )
+    {
+
+        var dialog = document.getElementById("modal"  )        ;
+        if (dialog) {
+            dialog.open();
+        }
+
+
+    }
+</script>
+
+</body>
+</html>
+
+
+
+
+
