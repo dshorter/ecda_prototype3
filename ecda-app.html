@@ -38,6 +38,9 @@
             </div>
         </paper-dialog>
 
+        <paper-dialog id="pleasewait">
+            <paper-spinner id="pleasewait_sp" active></paper-spinner>
+        </paper-dialog>
 
         <app-location route="{{route}}" use-hash-as-path></app-location>
         <app-route route="{{route}}">
@@ -90,7 +93,7 @@
 
                 <!-- Main Content -->
                 <div class="content">
-                    <paper-spinner id="pleasewait"></paper-spinner>
+                    <!--   <paper-spinner id="pleasewait"></paper-spinner>-->
                     <ecda-container id="ecda_cont"
                                     gadgets-collection="{{canvasResponseJson }}">
                     </ecda-container>
@@ -111,13 +114,12 @@
             properties: {
                 canvasResponseJson: {
                     type: Object,
-                    notify: true,
-                    observer: 'canvasResponseJson_change'
+                    notify: true
+
                 },
                 canvasListResponseJson: {
                     type: Object,
                     notify: true
-
                 },
                 canvasSelectedJson: {
                     type: Object
@@ -127,19 +129,8 @@
                     notify: true
                 }
             },
-            getCanvas: function () {
-                logThis("aaaa")
-                return this.canvasListResponseJson[this.canvasSelectedJson];
-            },
             ready: function () {
 
-            },
-            canvasResponseJson_change: function () {
-                logThis("canvasResponseJson_change")
-                //  walk(this.gadgetsCollection.DashboardCanvas.Gadgets, "this.gadgetsCollection.DashboardCanvas.Gadgets")
-
-
-                // logThis("array check " + " -- " +   Array.isArray(  this.gadgetsCollection.DashboardCanvas.Gadgets.gadget  )  )
             },
             okClick: function () {
                 this._logonUser();
@@ -158,7 +149,8 @@
 
                 logThis('ready from app  ');
 
-                this.$.pleasewait.active = true;
+                this.$.pleasewait.open();
+                // this.$.pleasewait.active = true;
 
                 tryAjax(this.$.myAjax, "Login", jsonRequest);
 
@@ -171,8 +163,8 @@
             _on_iron_select: function (e) {
 
                 this.$.mainDrawerPanel.closeDrawer();
-
-                this.$.pleasewait.active = true;
+                this.$.pleasewait.open();
+                //  this.$.pleasewait.active = true;
 
 
                 //  logThis( this.$.canvasList.selectedItem.textContent ,  "_selected"  )        ;
@@ -195,8 +187,8 @@
             },
             handleCanvasListResponse: function (response) {
 
-
-                this.$.pleasewait.active = false;
+                this.$.pleasewait.close();
+                // this.$.pleasewait.active = false;
 
                 this.canvasListResponseJson = JSON.parse(response.detail.xhr.responseText);
 
@@ -206,7 +198,8 @@
             handleCanvasResponse: function (response) {
                 logThis("handleCanvasResponse");
 
-                this.$.pleasewait.active = false;
+                this.$.pleasewait.close();
+                // this.$.pleasewait.active = false;
 
                 var responseCheck = JSON.parse(response.detail.xhr.responseText);
 
@@ -224,11 +217,11 @@
 
             handleLogonResponse: function (e, responseX) {
 
+                this.$.pleasewait.close();
 
                 logThis(e.detail.xhr.responseText);
 
                 var responseJson = JSON.parse(e.detail.xhr.responseText);
-
 
                 if (gUserJson) {
 
@@ -250,14 +243,12 @@
                 tryAjax(this.$.canvasListAjax, "CanvasList", jsonUser);
 
                 logThis(this.$.canvasListAjax.body);
-            }
-            ,
+            },
             scrollHandler: function (event) {
                 var scroller = event.detail.target;
                 logThis(scroller.scrollTop);
             }
-        })
-        ;
+        });
     </script>
 
 </dom-module>
