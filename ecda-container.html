@@ -1,4 +1,4 @@
-<dom-module id="ecda-container2">
+<dom-module id="ecda-container">
 
     <link rel="import" href="ecda-gadget.html">
     <link rel="import"
@@ -30,22 +30,34 @@
 
     </template>
     <script>
-
         Polymer({
-            is: 'ecda-container2',
+            is: 'ecda-container',
             properties: {
                 gadgetsCollection: {
                     type: Object,
-                    observer:  'canvasResponseJson2_change',
+                    observer: 'canvasResponseJson2_change',
                     notify: true
                 }
             },
-            canvasResponseJson2_change:  function () {
-                  logThis("canvasResponseJson2_change")
-                walk(this.gadgetsCollection.DashboardCanvas.Gadgets, "this.gadgetsCollection.DashboardCanvas.Gadgets")
+            canvasResponseJson2_change: function () {
+                /*     logThis("canvasResponseJson2_change")
+                 //  walk(this.gadgetsCollection.DashboardCanvas.Gadgets, "this.gadgetsCollection.DashboardCanvas.Gadgets")
+
+                 if ( Array.isArray(this.gadgetsCollection.DashboardCanvas.Gadgets.gadget) ==  false  ) {
+
+                 var oneGadget = this.gadgetsCollection.DashboardCanvas.Gadgets.gadget;
+                 oneGadget = [oneGadget];
+                 this.gadgetsCollection.DashboardCanvas.Gadgets.gadget = null;
+                 this.gadgetsCollection.DashboardCanvas.Gadgets.gadget = oneGadget;
+
+                 logThis("one item array" + " -- " + this.gadgetsCollection.DashboardCanvas.Gadgets.gadget.length);
+                 } */
+                // logThis("array check " + " -- " +   Array.isArray(  th*/is.gadgetsCollection.DashboardCanvas.Gadgets.gadget  )  )
             }
 
         });
     </script>
 
 </dom-module>
+
+

@@ -1,26 +1,25 @@
-﻿﻿
-<dom-module id="ecda-app">
+﻿<dom-module id="ecda-app">
 
-
-    <link rel="import" href="bower_components/iron-icons/iron-icons.html">
-
+    <link rel="import"
+          href="bower_components/iron-icons/iron-icons.html">
     <link rel="import"
           href="bower_components/paper-drawer-panel/paper-drawer-panel.html">
     <link rel="import"
           href="bower_components/paper-header-panel/paper-header-panel.html">
     <link rel="import"
           href="bower_components/paper-icon-button/paper-icon-button.html">
-    <link rel="import" href="bower_components/paper-item/paper-item.html">
-    <link rel="import" href="bower_components/paper-menu/paper-menu.html">
-    <link rel="import" href="bower_components/paper-toolbar/paper-toolbar.html">
-
-    <link rel="import" href="bower_components/paper-spinner/paper-spinner.html">
-
-
-    <link rel="import" href="ecda-container2.html"/>
-
+    <link rel="import"
+          href="bower_components/paper-item/paper-item.html">
+    <link rel="import"
+          href="bower_components/paper-menu/paper-menu.html">
+    <link rel="import"
+          href="bower_components/paper-toolbar/paper-toolbar.html">
+    <link rel="import"
+          href="bower_components/paper-spinner/paper-spinner.html">
 
     <link rel="import" type="css" href="stylesheets/ecda.css"/>
+
+    <link rel="import" href="ecda-container.html"/>
 
     <template>
 
@@ -34,37 +33,25 @@
             </paper-input>
             <div class="buttons">
                 <paper-button dialog-confirm autofocus on-click="okClick">OK
-                    dokey
                 </paper-button>
-                <paper-button dialog-cancel autofocus>7777</paper-button>
+                <paper-button dialog-cancel autofocus>Cancel</paper-button>
             </div>
         </paper-dialog>
 
 
         <app-location route="{{route}}" use-hash-as-path></app-location>
-
         <app-route route="{{route}}">
             pattern="/:action"
             data="{{actionData}}"
             tail="{{actionTail}}"
         </app-route>
 
-
         <iron-ajax id="myAjax"
                    on-response="handleLogonResponse"></iron-ajax>
         <iron-ajax id="canvasAjax"
                    on-response="handleCanvasResponse"></iron-ajax>
         <iron-ajax id="canvasListAjax"
-                   on-response="CanvasListResponse"></iron-ajax>
-
-
-        <style>
-            .appTitle {
-                border: white;
-                text-align: right;
-                width: 100%;
-            }
-        </style>
+                   on-response="handleCanvasListResponse"></iron-ajax>
 
 
         <paper-drawer-panel id="mainDrawerPanel" class="main-drawer-panel"
@@ -82,12 +69,11 @@
 
                 <!-- List -->
                 <paper-menu class="list" id="canvasList"
-                            on-iron-select="_listTap">
+                            on-iron-select="_on_iron_select">
                     <template is="dom-repeat"
-                              items="{{canvasListResponseJson.NewDataSet.Table  }}">
+                              items="{{canvasListResponseJson.NewDataSet.Table}}">
                         <paper-item>{{item.CanvasName}}</paper-item>
                     </template>
-
                 </paper-menu>
 
             </paper-header-panel>
@@ -99,19 +85,15 @@
                 <paper-toolbar>
                     <paper-icon-button icon="menu"
                                        list-toggle></paper-icon-button>
-                    <paper-icon-button icon="save"
-                    ></paper-icon-button>
-
+                    <paper-icon-button icon="save"></paper-icon-button>
                 </paper-toolbar>
 
                 <!-- Main Content -->
                 <div class="content">
-
                     <paper-spinner id="pleasewait"></paper-spinner>
-                    <ecda-container2 id="ecda_cont"
-                                     gadgets-collection="{{canvasResponseJson }}">
-
-                    </ecda-container2>
+                    <ecda-container id="ecda_cont"
+                                    gadgets-collection="{{canvasResponseJson }}">
+                    </ecda-container>
                 </div>
 
 
@@ -129,8 +111,8 @@
             properties: {
                 canvasResponseJson: {
                     type: Object,
-                    notify: true
-
+                    notify: true,
+                    observer: 'canvasResponseJson_change'
                 },
                 canvasListResponseJson: {
                     type: Object,
@@ -151,6 +133,13 @@
             },
             ready: function () {
 
+            },
+            canvasResponseJson_change: function () {
+                logThis("canvasResponseJson_change")
+                //  walk(this.gadgetsCollection.DashboardCanvas.Gadgets, "this.gadgetsCollection.DashboardCanvas.Gadgets")
+
+
+                // logThis("array check " + " -- " +   Array.isArray(  this.gadgetsCollection.DashboardCanvas.Gadgets.gadget  )  )
             },
             okClick: function () {
                 this._logonUser();
@@ -179,9 +168,12 @@
                 // when in mobile screen size, make the list be 100% width to cover the whole screen
                 return isMobile ? '100%' : '33%';
             },
-            _listTap: function (e) {
+            _on_iron_select: function (e) {
 
                 this.$.mainDrawerPanel.closeDrawer();
+
+                this.$.pleasewait.active = true;
+
 
                 //  logThis( this.$.canvasList.selectedItem.textContent ,  "_selected"  )        ;
                 logThis(this.$.canvasList.selected, "_selected");
@@ -201,7 +193,7 @@
                 tryAjax(this.$.canvasAjax, "Canvas", req);
 
             },
-            CanvasListResponse: function (response) {
+            handleCanvasListResponse: function (response) {
 
 
                 this.$.pleasewait.active = false;
@@ -212,16 +204,22 @@
             },
 
             handleCanvasResponse: function (response) {
-
-
                 logThis("handleCanvasResponse");
 
                 this.$.pleasewait.active = false;
 
-                this.canvasResponseJson = JSON.parse(response.detail.xhr.responseText);
-                //  this.$.ecda_cont.gadgetsCollection = this.canvasResponseJson;
+                var responseCheck = JSON.parse(response.detail.xhr.responseText);
 
+                if (Array.isArray(responseCheck.DashboardCanvas.Gadgets.gadget) == false) {
 
+                    var oneGadget = responseCheck.DashboardCanvas.Gadgets.gadget;
+                    oneGadget = [oneGadget];
+                    responseCheck.DashboardCanvas.Gadgets.gadget = null;
+                    responseCheck.DashboardCanvas.Gadgets.gadget = oneGadget;
+
+                    logThis("one item array" + " -- " + responseCheck.DashboardCanvas.Gadgets.gadget.length);
+                }
+                this.canvasResponseJson = responseCheck;
             },
 
             handleLogonResponse: function (e, responseX) {
