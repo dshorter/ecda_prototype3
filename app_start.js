@@ -1,5 +1,4 @@
-﻿
-"use strict";
+﻿"use strict";
 
 var tempConstants = {
     user: 'zpq4@cdc.gov',
@@ -43,7 +42,8 @@ function doWalk(obj, pad) {
             var val = obj[key];
             console.log(pad + key + ' ---> ' + val);
             if (typeof(val ) !== "string") {
-                doWalk(val, pad);
+                if (pad.length < 3)
+                    doWalk(val, pad);
             }
         }
     }
@@ -61,7 +61,7 @@ function tryAjax(myAjax, controllerName, jsonRequest) {
     myAjax.responseType = "json";
     myAjax.generateRequest();
 
-    
+
 }
 
 

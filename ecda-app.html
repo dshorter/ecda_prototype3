@@ -51,11 +51,11 @@
 
 
         <iron-ajax id="myAjax"
-                   on-response="handleResponse"></iron-ajax>
+                   on-response="handleLogonResponse"></iron-ajax>
         <iron-ajax id="canvasAjax"
                    on-response="handleCanvasResponse"></iron-ajax>
         <iron-ajax id="canvasListAjax"
-                   on-response="handleCanvasListResponse"></iron-ajax>
+                   on-response="CanvasListResponse"></iron-ajax>
 
 
         <style>
@@ -81,27 +81,13 @@
                 </paper-toolbar>
 
                 <!-- List -->
-                <paper-menu class="list" on-iron-activate="_listTap">
-                    <paper-item>FFFF</paper-item>
-                    <paper-item></paper-item>
-                    <paper-item></paper-item>
-                    <paper-item></paper-item>
-                    <paper-item></paper-item>
-                    <paper-item></paper-item>
-                    <paper-item></paper-item>
-                    <paper-item></paper-item>
-                    <paper-item></paper-item>
-                    <paper-item></paper-item>
-                    <paper-item></paper-item>
-                    <paper-item></paper-item>
-                    <paper-item></paper-item>
-                    <paper-item></paper-item>
-                    <paper-item></paper-item>
-                    <paper-item></paper-item>
-                    <paper-item></paper-item>
-                    <paper-item></paper-item>
-                    <paper-item></paper-item>
-                    <paper-item></paper-item>
+                <paper-menu class="list" id="canvasList"
+                            on-iron-select="_listTap">
+                    <template is="dom-repeat"
+                              items="{{canvasListResponseJson.NewDataSet.Table  }}">
+                        <paper-item>{{item.CanvasName}}</paper-item>
+                    </template>
+
                 </paper-menu>
 
             </paper-header-panel>
@@ -121,9 +107,9 @@
                 <!-- Main Content -->
                 <div class="content">
 
-                    <paper-spinner   id="pleasewait"></paper-spinner>
+                    <paper-spinner id="pleasewait"></paper-spinner>
                     <ecda-container2 id="ecda_cont"
-                                     gadgets-collection="{{canvasResponseJson}}">
+                                     gadgets-collection="{{canvasResponseJson }}">
 
                     </ecda-container2>
                 </div>
@@ -145,26 +131,26 @@
                     type: Object,
                     notify: true
 
+                },
+                canvasListResponseJson: {
+                    type: Object,
+                    notify: true
+
+                },
+                canvasSelectedJson: {
+                    type: Object
+                },
+                selectedCanvas: {
+                    type: Number,
+                    notify: true
                 }
+            },
+            getCanvas: function () {
+                logThis("aaaa")
+                return this.canvasListResponseJson[this.canvasSelectedJson];
             },
             ready: function () {
 
-                /*       var user = tempConstants.user;
-                 var password = tempConstants.password;
-                 var canvasid = tempConstants.canvasid;
-
-                 var jsonRequest = {
-                 id: user,
-                 password: password,
-                 canvasid: canvasid
-                 };
-
-
-                 logThis('ready from app  ');
-
-                 tryAjax(this.$.myAjax, "Login", jsonRequest);
-
-                 */
             },
             okClick: function () {
                 this._logonUser();
@@ -193,10 +179,42 @@
                 // when in mobile screen size, make the list be 100% width to cover the whole screen
                 return isMobile ? '100%' : '33%';
             },
-            _listTap: function () {
+            _listTap: function (e) {
+
                 this.$.mainDrawerPanel.closeDrawer();
+
+                //  logThis( this.$.canvasList.selectedItem.textContent ,  "_selected"  )        ;
+                logThis(this.$.canvasList.selected, "_selected");
+
+                this.selectedCanvas = this.$.canvasList.selected;
+
+                this.canvasSelectedJson = this.canvasListResponseJson[this.selectedCanvas];
+
+                walk(this.canvasListResponseJson.NewDataSet.Table[this.selectedCanvas]);
+
+                var req = {
+                    canvasid: this.canvasListResponseJson.NewDataSet.Table[this.selectedCanvas].CanvasGUID
+                }
+
+                logThis(req.canvasid, "req.canvasid");
+
+                tryAjax(this.$.canvasAjax, "Canvas", req);
+
             },
+            CanvasListResponse: function (response) {
+
+
+                this.$.pleasewait.active = false;
+
+                this.canvasListResponseJson = JSON.parse(response.detail.xhr.responseText);
+
+                walk(this.canvasListResponseJson, "canvasListResponseJson");
+            },
+
             handleCanvasResponse: function (response) {
+
+
+                logThis("handleCanvasResponse");
 
                 this.$.pleasewait.active = false;
 
@@ -205,10 +223,8 @@
 
 
             },
-            handleResponse: function (e, responseX) {
 
-
-                logThis("e.detail.xhr.responseType  --> " + e.detail.xhr.responseType);
+            handleLogonResponse: function (e, responseX) {
 
 
                 logThis(e.detail.xhr.responseText);
@@ -219,33 +235,31 @@
                 if (gUserJson) {
 
                     gUserJson.User = responseJson;
-                    console.log('cont gUser ---->  ' + gUserJson.User);
+                    console.log('cont gUserJson ---->  ' + gUserJson.User);
 
                     walk(gUserJson, "gUserJson");
 
                 }
 
                 //======================
-                var user = gUserJson.User.Email;
-                var password = gUserJson.User.PasswordHash;
-                var canvasid = tempConstants.canvasid;
+                var UserID = gUserJson.User.UserID;
 
                 var jsonUser = {
-                    id: user,
-                    password: password,
-                    canvasid: canvasid
+                    id: UserID
                 };
 
 
-                tryAjax(this.$.canvasAjax, "Canvas", jsonUser);
+                tryAjax(this.$.canvasListAjax, "CanvasList", jsonUser);
 
-                logThis(this.$.canvasAjax.body);
-            },
+                logThis(this.$.canvasListAjax.body);
+            }
+            ,
             scrollHandler: function (event) {
                 var scroller = event.detail.target;
                 logThis(scroller.scrollTop);
             }
-        });
+        })
+        ;
     </script>
 
 </dom-module>

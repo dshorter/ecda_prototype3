@@ -22,7 +22,7 @@
         </div>
         <div class="layout horizontal wrap" id="xx1">
             <template is="dom-repeat"
-                      items="{{gadgetsCollection.DashboardCanvas.Gadgets.gadget   }}">
+                      items="{{gadgetsCollection.DashboardCanvas.Gadgets.gadget  }}">
                 <ecda-gadget id="gadget{{index }}"
                              canvas-json="{{item }}"></ecda-gadget>
             </template>
@@ -42,6 +42,7 @@
             },
             canvasResponseJson2_change:  function () {
                   logThis("canvasResponseJson2_change")
+                walk(this.gadgetsCollection.DashboardCanvas.Gadgets, "this.gadgetsCollection.DashboardCanvas.Gadgets")
             }
 
         });
