@@ -13,14 +13,22 @@
             <paper-card heading="Gadget {{canvasJson.gadgetTitle   }}  "
                         image=""
                         elevation="4 " animated-shadow="true ">
-            <div class="card-content ">
-                <paper-slider min="10 " max="200 " value="110 "></paper-slider>
-                <paper-input label="Type stuff here "></paper-input>
+                <div class="card-content ">
+                    <template is="dom-repeat" items="{{gadgetKeys  }}">
+                        <p>
+                            <paper-textarea>{{item.key }}</paper-textarea>
+                            <paper-input id="gadget{{index }}"
+                                         value="{{item.val  }}"></paper-input>
+                        </p>
+                    </template>
+                    <paper-slider min="10 " max="200 "
+                                  value="110 "></paper-slider>
+                    <paper-input label="Type stuff here "></paper-input>
 
-            </div>
-            <div class="card-actions ">
+                </div>
+                <div class="card-actions ">
 
-            </div>
+                </div>
             </paper-card>
 
         </div>
@@ -34,15 +42,30 @@
                 canvasStr: String,
                 canvasJson: {
                     type: Object,
-                    value: "haha"
-                },
-                notify: true
+                    value: "haha",
+                    notify: true
 
+                },
+                gadgetKeys: {
+                    computed: 'getValues(canvasJson  )'
+                }
             },
-            ready: function () {
-                logThis("this.canvasJSON1 -- " + this.canvasjson)
+            getKeys: function (canvasJson) {
+                return Object.keys(canvasJson);
+            },
+            getValues: function (canvasJson) {
+                var kvpArray = [];
+                for (var key in   canvasJson) {
+                    if (canvasJson.hasOwnProperty(key)) {
+                        var val = canvasJson[key];
+                        kvpArray.push({"key": key, "val": val});
+                    }
+                }
+                return kvpArray;
+
             }
-        });
+        })
+        ;
     </script>
 
 

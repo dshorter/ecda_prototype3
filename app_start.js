@@ -6,6 +6,12 @@ var tempConstants = {
     canvasid: '25cd9b0c-8adf-4c12-8580-72ea7b1ff9d0'
 };
 
+var appConfig = {
+    AZURE_API_PATH: "http://ecdaapi.azurewebsites.net/",
+    LOCAL_API_PATH: "http://localhost/edca.api/"
+}
+
+
 var gCanvas = {
     User: {}
 };
@@ -56,7 +62,7 @@ function tryAjax(myAjax, controllerName, jsonRequest) {
 
     myAjax.contentType = "application/json; charset=utf-8";
     myAjax.method = "POST";
-    myAjax.url = "http://localhost/edca.api/" + controllerName;
+    myAjax.url = appConfig.LOCAL_API_PATH + controllerName;
     myAjax.handleAs = "text";
     myAjax.responseType = "json";
     myAjax.generateRequest();
