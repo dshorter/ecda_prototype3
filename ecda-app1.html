@@ -21,17 +21,6 @@
 
     <link rel="import" href="ecda-container.html"/>
 
-    <!---->
-
-    <link rel="import" href="ecda-gadget.html">
-    <link rel="import"
-          href="bower_components/iron-flex-layout/iron-flex-layout-classes.html">
-
-    <link rel="import" href="bower_components/iron-meta/iron-meta.html">
-
-    <style include="iron-flex iron-flex-alignment"></style>
-
-
     <template>
 
         <paper-dialog id="modal" modal>
@@ -104,32 +93,10 @@
 
                 <!-- Main Content -->
                 <div class="content">
-
-                    <!-- <ecda-container id="ecda_cont"
-                                     gadgets-collection="{{canvasResponseJson }}">
-                     </ecda-container>-->
-
-                    <div>
-                        <paper-material>
-                            <p>Canvas Name:
-                                {{canvasResponseJson.DashboardCanvas.CanvasName}} </p>
-                            <p>Datasource Name:
-                                {{canvasResponseJson.DashboardCanvas.DatasourceName
-                                }}</p>
-                            <paper-button on-click="_on_iron_select2">AA
-                            </paper-button>
-                        </paper-material>
-                    </div>
-
-                    <div class="layout horizontal wrap" id="xx1">
-                        <template is="dom-repeat" id="ecdaContTemplate"
-                                  items="{{canvasResponseJson.DashboardCanvas.Gadgets.gadget  }}">
-                            <ecda-gadget id="gadget{{index }}"
-                                         canvas-json="{{item }}"></ecda-gadget>
-                        </template>
-                    </div>
-
-
+                    <!--   <paper-spinner id="pleasewait"></paper-spinner>-->
+                    <ecda-container id="ecda_cont"
+                                    gadgets-collection="{{canvasResponseJson }}">
+                    </ecda-container>
                 </div>
 
             </paper-header-panel>
@@ -195,17 +162,6 @@
             _computeListWidth: function (isMobile) {
                 // when in mobile screen size, make the list be 100% width to cover the whole screen
                 return isMobile ? '100%' : '33%';
-            },
-            _on_iron_select2: function (e) {
-                //   if ( Polymer.dom(ecdaContTemplate.gadget0 )    )
-                logThis(this.canvasResponseJson.DashboardCanvas.Gadgets.gadget.length)
-                logThis("this.$$(gadget0  )  " + this.$$('#gadget0').canvasJson);
-                walk(this.$$('#gadget0').canvasJson, "this.$$( '#gadget0'  ).canvasJson ")
-                //  logThis("aa " + Polymer.dom(this.$$(gadget0  )  )  )        ;
-
-                //  walk(Polymer.dom(ecdaContTemplate.gadget0 ), "Polymer.dom(ecdaContTemplate.gadget0 ) "  )        ;
-                //  walk( this.$$("ecdaContTemplate"  )    , "Polymer.dom(ecdaContTemplate.gadget0 ) "  )        ;
-
             },
             _on_iron_select: function (e) {
 
