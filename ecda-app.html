@@ -99,7 +99,8 @@
                 <paper-toolbar>
                     <paper-icon-button icon="menu"
                                        list-toggle></paper-icon-button>
-                    <paper-icon-button icon="save"></paper-icon-button>
+                    <paper-icon-button icon="save"
+                                       on-click="_on_test_click"></paper-icon-button>
                 </paper-toolbar>
 
                 <!-- Main Content -->
@@ -116,8 +117,8 @@
                             <p>Datasource Name:
                                 {{canvasResponseJson.DashboardCanvas.DatasourceName
                                 }}</p>
-                            <paper-button on-click="_on_test_click">AA
-                            </paper-button>
+                            <!-- <paper-button on-click="_on_test_click">AA
+                             </paper-button>-->
                         </paper-material>
                     </div>
 
@@ -198,14 +199,20 @@
                 return isMobile ? '100%' : '33%';
             },
             _on_test_click: function (e) {
-                //   if ( Polymer.dom(ecdaContTemplate.gadget0 )    )
+                /*   //   if ( Polymer.dom(ecdaContTemplate.gadget0 )    )
                 logThis(this.canvasResponseJson.DashboardCanvas.Gadgets.gadget.length)
                 logThis("this.$$(gadget0  )  " + this.$$('#gadget0').canvasJson);
                 walk(this.$$('#gadget0').canvasJson, "this.$$( '#gadget0'  ).canvasJson ")
                 //  logThis("aa " + Polymer.dom(this.$$(gadget0  )  )  )        ;
 
                 //  walk(Polymer.dom(ecdaContTemplate.gadget0 ), "Polymer.dom(ecdaContTemplate.gadget0 ) "  )        ;
-                //  walk( this.$$("ecdaContTemplate"  )    , "Polymer.dom(ecdaContTemplate.gadget0 ) "  )        ;
+                 //  walk( this.$$("ecdaContTemplate"  )    , "Polymer.dom(ecdaContTemplate.gadget0 ) "  )        ;*/
+
+                logThis(this.canvasResponseJson.DashboardCanvas.Gadgets.gadget.length)
+
+                for (x = 0; x < this.canvasResponseJson.DashboardCanvas.Gadgets.gadget.length; x++) {
+                    logThis(this.$$('#gadget' + x).canvasJson.top);
+                }
 
             },
             _on_iron_select: function (e) {

@@ -23,7 +23,7 @@
                        </template>-->
 
                     <p>
-                        <paper-input label="Type stuff here "
+                        <paper-input label="Top "
                                      value="{{canvasJson.top }}"></paper-input>
                     </p>
 
@@ -50,6 +50,17 @@
                     type: Object,
                     value: "haha",
                     notify: true
+
+                },
+
+
+                ready: function () {
+                    logThis("freq " + freq);
+                    var freq = document.createElement("ecda-freq");
+                    freq.canvasJson = this.canvasJson;
+
+                    logThis("freq " + freq);
+                    Polymer.dom(cardContent).appendChild(freq);
 
                 },
                 gadgetKeys: {
