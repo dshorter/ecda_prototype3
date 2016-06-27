@@ -36,7 +36,7 @@ function walk(obj, desc) {
     doWalk(obj);
     logThis("ehd walk");
 }
-
+// git test -- tag1     
 function doWalk(obj, pad) {
     if (pad === undefined) {
         pad = "-";

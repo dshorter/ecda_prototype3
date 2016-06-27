@@ -116,7 +116,7 @@
                             <p>Datasource Name:
                                 {{canvasResponseJson.DashboardCanvas.DatasourceName
                                 }}</p>
-                            <paper-button on-click="_on_iron_select2">AA
+                            <paper-button on-click="_on_test_click">AA
                             </paper-button>
                         </paper-material>
                     </div>
@@ -190,13 +190,14 @@
 
                 tryAjax(this.$.logonAjax, "Login", jsonRequest);
 
+                // git test -- tag1
 
             },
             _computeListWidth: function (isMobile) {
                 // when in mobile screen size, make the list be 100% width to cover the whole screen
                 return isMobile ? '100%' : '33%';
             },
-            _on_iron_select2: function (e) {
+            _on_test_click: function (e) {
                 //   if ( Polymer.dom(ecdaContTemplate.gadget0 )    )
                 logThis(this.canvasResponseJson.DashboardCanvas.Gadgets.gadget.length)
                 logThis("this.$$(gadget0  )  " + this.$$('#gadget0').canvasJson);
