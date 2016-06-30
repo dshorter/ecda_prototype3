@@ -1,5 +1,9 @@
 <dom-module id="ecda-gadget">
 
+
+    <link rel="import" href="ecda-freq.html"/>
+
+
     <style>
         .outdiv {
             margin: 20px;
@@ -10,7 +14,8 @@
     <template>
         <div class="outdiv">
 
-            <paper-card heading="Gadget {{canvasJson.gadgetTitle   }}  "
+            <paper-card id="gadgetcard"
+                        heading="Gadget {{canvasJson.gadgetTitle   }}  "
                         image=""
                         elevation="4 " animated-shadow="true ">
                 <div class="card-content ">
@@ -32,9 +37,12 @@
                     <paper-input label="Type stuff here "></paper-input>
 
                 </div>
-                <div class="card-actions ">
-
+                <div id="placeholder">
+                    <div id="filltohere"></div>
                 </div>
+                <content class="card-actions " id="cardactions">
+
+                </content>
             </paper-card>
 
         </div>
@@ -54,21 +62,39 @@
                 },
 
 
-                ready: function () {
-                    logThis("freq " + freq);
-                    var freq = document.createElement("ecda-freq");
-                    freq.canvasJson = this.canvasJson;
-
-                    logThis("freq " + freq);
-                    Polymer.dom(cardContent).appendChild(freq);
-
-                },
                 gadgetKeys: {
                     computed: 'getValues(canvasJson  )'
                 }
             },
             getKeys: function (canvasJson) {
                 return Object.keys(canvasJson);
+            },
+            ready: function () {
+                //   this.async(function () {
+                var freq = document.createElement("ecda-freq");
+                freq.canvasJson = this.canvasJson;
+
+                logThis("freq " + freq.canvasJson);
+
+                //  logThis("freq "  )        ;
+                //    walk ( card7, "card7"  )        ;
+
+                //   logThis("this.$.card7.children.length -- " + this.$.card7.children.length);
+                //  Polymer.dom(this.$.card7).appendChild(freq);
+
+                var thisCard = this.getContentChildren('#card7');
+                //  thisCard.appendChild(freq  )        ;
+
+                //  Polymer.dom(this.$.gadgetcard).insertBefore(freq, this.$.cardactions);
+                Polymer.dom(this.$.placeholder).insertBefore(freq, this.$.filltohere);
+
+                logThis("thisCard " + thisCard.length);
+
+                //   logThis("this.$.card7.children.length -- " + this.$.card7.children.length);
+
+
+                //    })
+
             },
             getValues: function (canvasJson) {
                 var kvpArray = [];

@@ -1,47 +1,27 @@
 <dom-module id="ecda-freq">
 
-    <style>
-        .outdiv {
-            margin: 20px;
-        }
-    </style>
-
 
     <template>
-        <div class="outdiv">
 
-            <paper-card
-                    heading="Gadget details {{'details for ' +  canvasJson.gadgetTitle   }}  "
-                    image=""
-                    elevation="1 " animated-shadow="true ">
-                <div class="card-content ">
-                    <p>
-                        <paper-input label="Top for Gadget details"
-                                     value="{{canvasJson.top }}"></paper-input>
-                    </p>
-
-                    <paper-slider min="10 " max="200 "
-                                  value="110 "></paper-slider>
-                    <paper-input label="Type stuff here "></paper-input>
-
-                </div>
-                <div class="card-actions ">
-
-                </div>
-            </paper-card>
-
-        </div>
+        <div>{{canvasJson.gadgetType }}</div>
 
     </template>
     <script>
         Polymer({
-            is: 'ecda-gadget',
+            is: 'ecda-freq',
             properties: {
+                jsondata: String,
                 canvasJson: {
-                    type: Object,
+                    type: String,
                     value: "haha",
                     notify: true
+
                 }
+            },
+            ready: function () {
+                this.async(function () {
+                    walk(this.canvasJson, "this.canvasJson");
+                })
             }
         });
     </script>

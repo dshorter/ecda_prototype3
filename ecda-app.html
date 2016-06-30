@@ -143,6 +143,7 @@
 
         Polymer({
             is: 'ecda-app',
+
             properties: {
                 canvasResponseJson: {
                     type: Object,
@@ -225,11 +226,12 @@
                 //  logThis( this.$.canvasList.selectedItem.textContent ,  "_selected"  )        ;
                 logThis(this.$.canvasList.selected, "_selected");
 
+                // Get selected  ihdex
                 this.selectedCanvas = this.$.canvasList.selected;
 
                 this.canvasSelectedJson = this.canvasListResponseJson[this.selectedCanvas];
 
-                walk(this.canvasListResponseJson.NewDataSet.Table[this.selectedCanvas]);
+                logThis(this.canvasListResponseJson.NewDataSet.Table[this.selectedCanvas].CanvasGUID);
 
                 var req = {
                     canvasid: this.canvasListResponseJson.NewDataSet.Table[this.selectedCanvas].CanvasGUID
@@ -252,6 +254,13 @@
 
             handleCanvasResponse: function (response) {
                 logThis("handleCanvasResponse");
+
+
+                logThis(Polymer.dom(ecdaContTemplate).children.length);
+                //  Polymer.dom(ecdaContTemplate  ).children.clear        ;
+
+                logThis(Polymer.dom(ecdaContTemplate).children.length);
+
 
                 this.$.pleasewait.close();
                 // this.$.pleasewait.active = false;
