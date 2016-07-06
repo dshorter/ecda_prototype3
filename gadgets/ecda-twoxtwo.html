@@ -1,26 +1,30 @@
-<dom-module id="ecda-freq">
+<dom-module id="ecda-twoxtwo">
 
 
     <template>
 
-        <div>{{canvasJson.gadgetType }}</div>
+
+        <link rel="import" href="">
+
+        <paper-material>
+            <div>{{canvasJson.gadgetType }}</div>
+        </paper-material>
+
 
     </template>
     <script>
         Polymer({
-            is: 'ecda-freq',
+            is: 'ecda-twoxtwo',
             properties: {
-                jsondata: String,
                 canvasJson: {
                     type: String,
-                    value: "haha",
+                    value: "Json Here",
                     notify: true
-
                 }
             },
             ready: function () {
                 this.async(function () {
-                    walk(this.canvasJson, "this.canvasJson");
+                    walk(this.canvasJson, "2x2 this.canvasJson");
                 })
             }
         });

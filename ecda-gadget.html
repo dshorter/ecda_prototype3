@@ -1,8 +1,8 @@
 <dom-module id="ecda-gadget">
 
 
-    <link rel="import" href="ecda-freq.html"/>
-
+    <link rel="import" href="gadgets/ecda-freq.html"/>
+    <link rel="import" href="gadgets/ecda-twoxtwo.html"/>
 
     <style>
         .outdiv {
@@ -19,30 +19,21 @@
                         image=""
                         elevation="4 " animated-shadow="true ">
                 <div class="card-content ">
-                    <!--   <template is="dom-repeat" items="{{gadgetKeys  }}">
-                           <p>
-                               <paper-textarea>{{item.key }}</paper-textarea>
-                               <paper-input id="gadget{{index }}"
-                                            value="{{item.val  }}"></paper-input>
-                           </p>
-                       </template>-->
 
-                    <p>
-                        <paper-input label="Top "
-                                     value="{{canvasJson.top }}"></paper-input>
-                    </p>
+                    <!--     <p>
+                             <paper-input label="Top "
+                                          value="{{canvasJson.top }}"></paper-input>
+                         </p>
 
-                    <paper-slider min="10 " max="200 "
-                                  value="110 "></paper-slider>
-                    <paper-input label="Type stuff here "></paper-input>
+                         <paper-slider min="10 " max="200 "
+                                       value="110 "></paper-slider>
+                         <paper-input label="Type stuff here "></paper-input>
+     -->
+                    <div id="placeholder">
+                        <div id="filltohere"></div>
+                    </div>
 
                 </div>
-                <div id="placeholder">
-                    <div id="filltohere"></div>
-                </div>
-                <content class="card-actions " id="cardactions">
-
-                </content>
             </paper-card>
 
         </div>
@@ -71,22 +62,25 @@
             },
             ready: function () {
                 //   this.async(function () {
-                var freq = document.createElement("ecda-freq");
-                freq.canvasJson = this.canvasJson;
 
-                logThis("freq " + freq.canvasJson);
+                var thisElementName = ecda.getGadgetElemetName(this.canvasJson.gadgetType);
 
-                //  logThis("freq "  )        ;
+                var thisGadget = document.createElement(thisElementName);
+                thisGadget.canvasJson = this.canvasJson;
+
+                logThis("thisGadget " + thisGadget.canvasJson);
+
+                //  logThis("thisGadget "  )        ;
                 //    walk ( card7, "card7"  )        ;
 
                 //   logThis("this.$.card7.children.length -- " + this.$.card7.children.length);
-                //  Polymer.dom(this.$.card7).appendChild(freq);
+                //  Polymer.dom(this.$.card7).appendChild(thisGadget);
 
                 var thisCard = this.getContentChildren('#card7');
-                //  thisCard.appendChild(freq  )        ;
+                //  thisCard.appendChild(thisGadget  )        ;
 
-                //  Polymer.dom(this.$.gadgetcard).insertBefore(freq, this.$.cardactions);
-                Polymer.dom(this.$.placeholder).insertBefore(freq, this.$.filltohere);
+                //  Polymer.dom(this.$.gadgetcard).insertBefore(thisGadget, this.$.cardactions);
+                Polymer.dom(this.$.placeholder).insertBefore(thisGadget, this.$.filltohere);
 
                 logThis("thisCard " + thisCard.length);
 
