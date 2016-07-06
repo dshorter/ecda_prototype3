@@ -1,0 +1,34 @@
+<dom-module id="ecda-chart">
+
+
+    <template>
+
+
+        <link rel="import" href="">
+
+        <paper-material>
+            <div>{{canvasJson.gadgetType }}</div>
+        </paper-material>
+
+
+    </template>
+    <script>
+        Polymer({
+            is: 'ecda-chart',
+            properties: {
+                canvasJson: {
+                    type: String,
+                    value: "Json Here",
+                    notify: true
+                }
+            },
+            ready: function () {
+                this.async(function () {
+                    walk(this.canvasJson, "this.canvasJson");
+                })
+            }
+        });
+    </script>
+
+
+</dom-module>

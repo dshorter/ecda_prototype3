@@ -3,6 +3,7 @@
 
     <link rel="import" href="gadgets/ecda-freq.html"/>
     <link rel="import" href="gadgets/ecda-twoxtwo.html"/>
+    <link rel="import" href="gadgets/ecda-chart.html"/>
 
     <style>
         .outdiv {
@@ -50,12 +51,8 @@
                     value: "haha",
                     notify: true
 
-                },
-
-
-                gadgetKeys: {
-                    computed: 'getValues(canvasJson  )'
                 }
+
             },
             getKeys: function (canvasJson) {
                 return Object.keys(canvasJson);
@@ -63,42 +60,15 @@
             ready: function () {
                 //   this.async(function () {
 
-                var thisElementName = ecda.getGadgetElemetName(this.canvasJson.gadgetType);
+                var thisElementName = ecda.getGadgetElementName(this.canvasJson.gadgetType);
 
                 var thisGadget = document.createElement(thisElementName);
                 thisGadget.canvasJson = this.canvasJson;
 
                 logThis("thisGadget " + thisGadget.canvasJson);
 
-                //  logThis("thisGadget "  )        ;
-                //    walk ( card7, "card7"  )        ;
-
-                //   logThis("this.$.card7.children.length -- " + this.$.card7.children.length);
-                //  Polymer.dom(this.$.card7).appendChild(thisGadget);
-
-                var thisCard = this.getContentChildren('#card7');
-                //  thisCard.appendChild(thisGadget  )        ;
-
                 //  Polymer.dom(this.$.gadgetcard).insertBefore(thisGadget, this.$.cardactions);
                 Polymer.dom(this.$.placeholder).insertBefore(thisGadget, this.$.filltohere);
-
-                logThis("thisCard " + thisCard.length);
-
-                //   logThis("this.$.card7.children.length -- " + this.$.card7.children.length);
-
-
-                //    })
-
-            },
-            getValues: function (canvasJson) {
-                var kvpArray = [];
-                for (var key in   canvasJson) {
-                    if (canvasJson.hasOwnProperty(key)) {
-                        var val = canvasJson[key];
-                        kvpArray.push({"key": key, "val": val});
-                    }
-                }
-                return kvpArray;
 
             }
         })
