@@ -4,6 +4,9 @@
     <link rel="import" href="gadgets/ecda-freq.html"/>
     <link rel="import" href="gadgets/ecda-twoxtwo.html"/>
     <link rel="import" href="gadgets/ecda-chart.html"/>
+    <link rel="import" href="gadgets/ecda-generic.html"/>
+    <link rel="import" href="gadgets/ecda-epicurve.html"/>
+
 
     <style>
         .outdiv {
@@ -30,9 +33,11 @@
                                        value="110 "></paper-slider>
                          <paper-input label="Type stuff here "></paper-input>
      -->
-                    <div id="placeholder">
-                        <div id="filltohere"></div>
+                    <div id="placeApple">
+                        <p id="filltohere">AAAA</p>
+                        <form></form>
                     </div>
+
 
                 </div>
             </paper-card>
@@ -54,25 +59,54 @@
                 }
 
             },
+
+
             getKeys: function (canvasJson) {
                 return Object.keys(canvasJson);
             },
             ready: function () {
                 //   this.async(function () {
 
+                /*     var myNode = document.getElementById("placeholder");
+                 while (myNode.firstChild) {
+                 myNode.removeChild(myNode.firstChild);
+                 }
+
+                 */
+
+
+                /*    while ( myNode.children.length >  1    ) {
+                 if (myNode.firstChild.id != "filltohere")
+                 myNode.removeChild(myNode.firstChild);
+                 }*/
+
+
                 var thisElementName = ecda.getGadgetElementName(this.canvasJson.gadgetType);
 
                 var thisGadget = document.createElement(thisElementName);
                 thisGadget.canvasJson = this.canvasJson;
+                thisGadget.className = "gadgetclass";
+
 
                 logThis("thisGadget " + thisGadget.canvasJson);
+                walk(thisGadget.canvasJson, "thisGadget.canvasJson");
 
                 //  Polymer.dom(this.$.gadgetcard).insertBefore(thisGadget, this.$.cardactions);
-                Polymer.dom(this.$.placeholder).insertBefore(thisGadget, this.$.filltohere);
+                //    Polymer.dom(this.$.placeholder).innerHTML = '';
 
+                //  Polymer.dom(this.$.placeApple).insertBefore(thisGadget, this.$.filltohere);
+
+                Polymer.dom.flush();
+
+
+                Polymer.dom(this.$.placeApple).appendChild(thisGadget);
+
+                Polymer.dom.flush();
+
+
+                //  })
             }
-        })
-        ;
+        });
     </script>
 
 

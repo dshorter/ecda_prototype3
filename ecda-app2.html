@@ -1,4 +1,4 @@
-﻿<dom-module id="ecda-app">
+﻿<dom-module id="ecda-app2">
 
     <link rel="import"
           href="bower_components/iron-icons/iron-icons.html">
@@ -122,11 +122,11 @@
                     </div>
 
                     <div class="layout horizontal wrap" id="xx1">
-                        <template is="dom-repeat" id="ecdaContTemplate"
-                                  items="{{canvasResponseJson.DashboardCanvas.Gadgets.gadget  }}">
-                            <ecda-gadget id="gadget{{index }}"
-                                         canvas-json="{{item }}"></ecda-gadget>
-                        </template>
+                        <!--  <template is="dom-repeat" id="ecdaContTemplate"
+                                    items="{{canvasResponseJson.DashboardCanvas.Gadgets.gadget  }}">
+                              <ecda-gadget id="gadget{{index }}"
+                                           canvas-json="{{item }}"></ecda-gadget>
+                          </template>-->
                     </div>
 
 
@@ -141,7 +141,7 @@
     <script>
 
         Polymer({
-            is: 'ecda-app',
+            is: 'ecda-app2',
 
             properties: {
                 canvasResponseJson: {
@@ -210,69 +210,6 @@
             _on_iron_select: function (e) {
 
 
-                Polymer.dom.flush();
-
-
-                var cleanup = document.querySelectorAll(".gadgetclass");
-                cleanup = null;
-
-                var f = false;
-                var toRemove = [];
-                for (x = 0; x < Polymer.dom(this.$.xx1).childNodes.length; x++) {
-                    if (typeof Polymer.dom(this.$.xx1).childNodes[x].id != "undefined") {
-                        if (Polymer.dom(this.$.xx1).childNodes[x].id.indexOf("gadget") >= 0) {
-                            logThis("lets delete   -- " + Polymer.dom(this.$.xx1).childNodes[x].id);
-                            toRemove.push(Polymer.dom(this.$.xx1).childNodes[x]);
-                        }
-                    }
-                }
-
-                logThis("toRemove.length -- " + toRemove.length);
-
-                for (x = 0; x < toRemove.length; x++) {
-                    //  toRemove[x  ].innerHtml =  ""        ;
-                    while (toRemove[x].firstChild) {
-                        toRemove[x].removeChild(toRemove[x].firstChild);
-                        Polymer.dom.flush();
-                        logThis("** removeChild");
-                    }
-                    //  Polymer.dom(this.$.xx1).removeChild(toRemove[x]);
-                }
-
-                /*
-                 while (Polymer.dom(this.$.xx1).childNodes.length > 0 && f == false) {
-                 logThis("ecdaContTemplate -- " + Polymer.dom(this.$.xx1).childNodes[0].id);
-                 //  logThis("ecdaContTemplate -- " + Polymer.dom(this.$.xx1).childNodes[x].value);
-                 if (Polymer.dom(this.$.xx1).childNodes[0].id.indexOf("gadget") >= 0) {
-                 Polymer.dom(this.$.xx1).removeChild(Polymer.dom(this.$.xx1).childNodes[0]);
-                 }
-                 */
-                /*
-                 if (Polymer.dom(this.$.xx1).childNodes[0].id == "ecdaContTemplate") {
-                 f = true;
-                 }
-                 else {
-
-                 }
-                 */
-
-                //  }
-
-                /*
-                 logThis("ecdaContTemplate -- " + Polymer.dom(xx1).childNodes.length);
-                 while (Polymer.dom(this.$.ecdaContTemplate).firstChild) {
-                 logThis("cleanup");
-                 Polymer.dom(this.$.ecdaContTemplate).removeChild(Polymer.dom(this.$.ecdaContTemplate).firstChild);
-                 }
-
-                 */
-
-                //    logThis("myNode.hasChildNodes()  -- " + cleanup)
-                //     logThis("myNode.firstChild.id -- " + cleanup.length)
-
-
-//                  Polymer.dom.flush();
-
 
                 //=======================================================
                 this.$.mainDrawerPanel.closeDrawer();
@@ -313,12 +250,6 @@
                 logThis("handleCanvasResponse");
 
 
-                logThis(Polymer.dom(ecdaContTemplate).children.length);
-                //  Polymer.dom(ecdaContTemplate  ).children.clear        ;
-
-                logThis(Polymer.dom(ecdaContTemplate).children.length);
-
-
                 this.$.pleasewait.close();
                 // this.$.pleasewait.active = false;
 
@@ -338,6 +269,57 @@
 
 
                 this.canvasResponseJson = responseCheck;
+
+                /*    var toRemove = [];
+                 for (x = 0; x < Polymer.dom(this.$.xx1).childNodes.length; x++) {
+                 logThis("lets delete   -- " + Polymer.dom(this.$.xx1).childNodes[x].id);
+                 toRemove.push(Polymer.dom(this.$.xx1).childNodes[x]);
+                 }
+                 */
+                while (Polymer.dom(this.$.xx1).firstChild) {
+                    Polymer.dom(this.$.xx1).removeChild(Polymer.dom(this.$.xx1).childNodes[0]);
+                    logThis("** removeChild");
+                }
+
+                //===============================================
+
+                // for (var gadgetJson  in    this.canvasResponseJson.DashboardCanvas.Gadgets.gadget) {
+                for (x = 0; x < this.canvasResponseJson.DashboardCanvas.Gadgets.gadget.length; x++) {
+
+                    var gadgetJson = this.canvasResponseJson.DashboardCanvas.Gadgets.gadget[x];
+
+                    walk(gadgetJson);
+
+                    var thisElementName = ecda.getGadgetElementName(gadgetJson.gadgetType);
+
+                    logThis("gadgetJson.gadgetType -- " + gadgetJson.gadgetType);
+
+                    var thisGadget = document.createElement(thisElementName);
+                    thisGadget.canvasJson = gadgetJson;
+                    thisGadget.className = "gadgetclass";
+
+
+                    logThis("gadgetJson  " + gadgetJson);
+                    walk(gadgetJson, "gadgetJson ");
+
+                    //  Polymer.dom(this.$.gadgetcard).insertBefore(thisGadget, this.$.cardactions);
+                    //    Polymer.dom(this.$.placeholder).innerHTML = '';
+
+                    //  Polymer.dom(this.$.placeApple).insertBefore(thisGadget, this.$.filltohere);
+
+                    Polymer.dom.flush();
+
+
+                    Polymer.dom(this.$.xx1).appendChild(thisGadget);
+
+                    Polymer.dom.flush();
+
+
+                }
+
+                //===============================================
+
+
             },
             handleLogonResponse: function (e, responseX) {
 

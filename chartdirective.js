@@ -90,6 +90,7 @@ directiveModule.directive('gChart', function () {
                     }
                     if (type == "EpiCurve") {
                         data = $scope.chart.data;
+
                         options.isStacked = 'true';
                     }
                     else if (type == "StackedColumn") {

@@ -1,0 +1,84 @@
+<dom-module id="ecda-epicurve">
+
+
+    <style>
+        .outdiv {
+            margin: 20px;
+        }
+    </style>
+
+
+    <template>
+        <div class="outdiv">
+
+            <paper-card id="gadgetcard"
+                        heading="Gadget {{canvasJson.gadgetTitle   }}  "
+                        image=""
+                        elevation="4 " animated-shadow="true ">
+                <div class="card-content ">
+
+                    <p>
+                        <paper-input label="Top "
+                                     value="{{canvasJson.top }}"></paper-input>
+                    </p>
+
+                    <paper-slider min="10 " max="200 "
+                                  value="110 "></paper-slider>
+                    <paper-input label="Type stuff here "></paper-input>
+
+                    <div id="placeApple">
+                        <p id="filltohere">AAAA</p>
+                        <form></form>
+                    </div>
+
+
+                </div>
+
+                <link rel="import" href=""/>
+
+                <iron-ajax id="gadgetRequestAjax"
+                           on-response="handleGadgetResponse"></iron-ajax>
+
+                <paper-material>
+                    <div>{{canvasJson.gadgetType }}</div>
+                </paper-material>
+
+
+            </paper-card>
+
+        </div>
+
+    </template>
+    <script>
+        Polymer({
+            is: 'ecda-epicurve',
+            properties: {
+                canvasJson: {
+                    type: String,
+                    value: "Json Here",
+                    notify: true
+                }
+            },
+            ready: function () {
+                //  this.async(function () {
+                walk(this.canvasJson, "this.canvasJson ec ");
+                //    })
+
+                var jsonRequest = {};
+
+                tryAjax(this.$.gadgetRequestAjax, "epicurve", jsonRequest);
+            },
+            handleGadgetResponse: function (response) {
+
+                logThis(JSON.parse(response.detail.xhr.responseText));
+
+            }
+        });
+    </script>
+
+
+</dom-module>
+
+
+
+

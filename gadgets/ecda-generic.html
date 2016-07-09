@@ -1,4 +1,4 @@
-<dom-module id="ecda-chart">
+<dom-module id="ecda-generic">
 
 
     <template>
@@ -7,14 +7,14 @@
         <link rel="import" href="">
 
         <paper-material>
-            <div>{{canvasJson2.gadgetType }}</div>
+            <div> Generic {{canvasJson2.gadgetType }}</div>
         </paper-material>
 
 
     </template>
     <script>
         Polymer({
-            is: 'ecda-chart',
+            is: 'ecda-generic',
             properties: {
                 canvasJson2: {
                     type: String,

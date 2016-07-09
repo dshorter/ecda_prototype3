@@ -10,8 +10,11 @@ var ecda = {
             case "Ewav.TwoxTwoTableControl" :
                 return "ecda-twoxtwo";
                 break;
-            case "Ewav.ChartControl"  :
-                return "ecda-chart";
+            case "Ewav.EpiCurve"  :
+                return "ecda-epicurve";
+                break;
+            default :
+                return "ecda-generic";
                 break;
         }
     },
@@ -19,7 +22,7 @@ var ecda = {
         AZURE_API_PATH: "http://ecdaapi.azurewebsites.net/",
         LOCAL_API_PATH: "http://localhost/edca.api/"
     }
-}
+};
 
 var gCanvas = {
     User: {}
@@ -32,7 +35,7 @@ var gUserJson = {
 var gWalkCount = {};
 
 function tryAjax(myAjax, controllerName, jsonRequest) {
-
+    logThis("tryAjax");
     myAjax.body = JSON.stringify(jsonRequest);
 
     myAjax.contentType = "application/json; charset=utf-8";

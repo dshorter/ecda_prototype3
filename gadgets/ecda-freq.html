@@ -8,7 +8,7 @@
               href="../bower_components/paper-item/paper-item.html">
 
         <paper-material>
-            <div>{{canvasJson.gadgetType }}</div>
+            <div>Freq {{canvasJson2.gadgetType }}</div>
         </paper-material>
 
 
@@ -18,7 +18,7 @@
             is: 'ecda-freq',
             properties: {
                 jsondata: String,
-                canvasJson: {
+                canvasJson2: {
                     type: String,
                     value: "haha",
                     notify: true
@@ -27,7 +27,7 @@
             },
             ready: function () {
                 this.async(function () {
-                    walk(this.canvasJson, "this.canvasJson");
+                    walk(this.canvasJson2, "this.canvasJson");
                 })
             }
         });
