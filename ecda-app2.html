@@ -184,7 +184,7 @@
                 };
 
 
-                logThis('ready from app  ');
+                logThis('ready from app logon   ');
 
                 this.$.pleasewait.open();
                 // this.$.pleasewait.active = true;
@@ -208,8 +208,6 @@
 
             },
             _on_iron_select: function (e) {
-
-
 
                 //=======================================================
                 this.$.mainDrawerPanel.closeDrawer();
@@ -295,7 +293,7 @@
                     logThis("gadgetJson.gadgetType -- " + gadgetJson.gadgetType);
 
                     var thisGadget = document.createElement(thisElementName);
-                    thisGadget.canvasJson = gadgetJson;
+                    thisGadget.gadgetJson = gadgetJson;
                     thisGadget.className = "gadgetclass";
 
 
@@ -308,12 +306,8 @@
                     //  Polymer.dom(this.$.placeApple).insertBefore(thisGadget, this.$.filltohere);
 
                     Polymer.dom.flush();
-
-
                     Polymer.dom(this.$.xx1).appendChild(thisGadget);
-
                     Polymer.dom.flush();
-
 
                 }
 

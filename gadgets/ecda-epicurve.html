@@ -1,5 +1,6 @@
 <dom-module id="ecda-epicurve">
 
+    <link rel="import" href=""/>
 
     <style>
         .outdiv {
@@ -7,40 +8,37 @@
         }
     </style>
 
-
     <template>
+
+
         <div class="outdiv">
 
+
             <paper-card id="gadgetcard"
-                        heading="Gadget {{canvasJson.gadgetTitle   }}  "
+                        heading="Gadget {{gadgetJson.gadgetName  }}  "
                         image=""
                         elevation="4 " animated-shadow="true ">
                 <div class="card-content ">
 
+
                     <p>
                         <paper-input label="Top "
-                                     value="{{canvasJson.top }}"></paper-input>
+                                     value="{{gadgetJson.top }}"></paper-input>
                     </p>
 
                     <paper-slider min="10 " max="200 "
                                   value="110 "></paper-slider>
-                    <paper-input label="Type stuff here "></paper-input>
-
-                    <div id="placeApple">
-                        <p id="filltohere">AAAA</p>
-                        <form></form>
-                    </div>
-
-
+                    <paper-input label="Enter text here "></paper-input>
+                    <paper-button dialog-confirm autofocus
+                                  on-click="_makeEpiCurveRequeest">OK
+                    </paper-button>
                 </div>
-
-                <link rel="import" href=""/>
 
                 <iron-ajax id="gadgetRequestAjax"
                            on-response="handleGadgetResponse"></iron-ajax>
 
                 <paper-material>
-                    <div>{{canvasJson.gadgetType }}</div>
+                    <div>{{gadgetJson.gadgetType }}</div>
                 </paper-material>
 
 
@@ -53,24 +51,46 @@
         Polymer({
             is: 'ecda-epicurve',
             properties: {
-                canvasJson: {
+                gadgetJson: {
                     type: String,
                     value: "Json Here",
                     notify: true
                 }
             },
+
+
             ready: function () {
+
                 //  this.async(function () {
-                walk(this.canvasJson, "this.canvasJson ec ");
-                //    })
+                walk(this.gadgetJson, "this.gadgetJson ec ");
 
-                var jsonRequest = {};
+                this._makeEpiCurveRequeest();
 
-                tryAjax(this.$.gadgetRequestAjax, "epicurve", jsonRequest);
+                //      tryAjax(this.$.gadgetRequestAjax, "epicurve", jsonRequest);
             },
             handleGadgetResponse: function (response) {
 
                 logThis(JSON.parse(response.detail.xhr.responseText));
+
+            },
+            _makeEpiCurveRequeest: function () {
+
+                var request = {
+
+                    DatasourceName: this.gadgetJson.DatasourceName,
+                    dateVariable: this.gadgetJson.dateVariable,
+                    xAxisStartValue: this.gadgetJson.xAxisStartValue,
+                    xAxisEndValue: this.gadgetJson.xAxisEndValue,
+                    dateInterval: this.gadgetJson.dateInterval,
+                    caseStatusVariable: this.gadgetJson.caseStatusVariable
+
+                }
+
+                walk(this.gadgetJson);
+
+                walk(request);
+
+                tryAjax(this.$.gadgetRequestAjax, "epicurve", request);
 
             }
         });
@@ -78,6 +98,7 @@
 
 
 </dom-module>
+
 
 
 
