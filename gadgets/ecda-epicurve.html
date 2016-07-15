@@ -48,33 +48,54 @@
 
     </template>
     <script>
+
+
         Polymer({
             is: 'ecda-epicurve',
             properties: {
                 gadgetJson: {
                     type: String,
                     value: "Json Here",
-                    notify: true
+                    notify: true,
+                    observer: '_validate'
+                },
+                responseJson: {
+                    type: Object
                 }
             },
-
-
             ready: function () {
 
-                //  this.async(function () {
-                walk(this.gadgetJson, "this.gadgetJson ec ");
+                this.async(function () {
+                    //  walk(this.gadgetJson, "this.gadgetJson ec ");
+                    this._makeEpiCurveRequeest();
+                });
 
-                this._makeEpiCurveRequeest();
 
-                //      tryAjax(this.$.gadgetRequestAjax, "epicurve", jsonRequest);
+            },
+            _validate: function () {
+
+                //  ecda.validateSchema('epicurve', this.gadgetJson  )        ;
+
+                if (this.gadgetJson != "Json Here") {
+                    logThis("ec sch from o   ---->");
+                    console.log(epicurveRequestSchema(this.gadgetJson));
+                }
+
             },
             handleGadgetResponse: function (response) {
 
-                logThis(JSON.parse(response.detail.xhr.responseText));
+                //  walk(JSON.parse(response.detail.xhr.responseText));
+                logThis(response.detail.xhr.responseText);
+
+                this.responseJson = JSON.parse(response.detail.xhr.responseText);
 
             },
             _makeEpiCurveRequeest: function () {
 
+
+                /*          logThis("ec sch ---->");
+                 console.log(epicurveRequestSchema(this.gadgetJson));
+                 */
                 var request = {
 
                     DatasourceName: this.gadgetJson.DatasourceName,
@@ -86,7 +107,7 @@
 
                 }
 
-                walk(this.gadgetJson);
+                //     walk(this.gadgetJson);
 
                 walk(request);
 

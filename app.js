@@ -22,7 +22,19 @@ var ecda = {
         AZURE_API_PATH: "http://ecdaapi.azurewebsites.net/",
         LOCAL_API_PATH: "http://localhost/edca.api/"
     }
+
 };
+
+var epicurveRequestSchema = schema({
+    DatasourceName: String,
+    dateVariable: String,
+    xAxisStartValue: String,
+    xAxisEndValue: String,
+    dateInterval: String,
+    caseStatusVariable: String
+
+});
+
 
 var gCanvas = {
     User: {}
