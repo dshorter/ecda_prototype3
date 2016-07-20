@@ -30,7 +30,7 @@
                                   value="110 "></paper-slider>
                     <paper-input label="Enter text here "></paper-input>
                     <paper-button dialog-confirm autofocus
-                                  on-click="_makeEpiCurveRequeest">OK
+                                  on-click="_makeEpiCurveRequest">OK
                     </paper-button>
                 </div>
 
@@ -67,7 +67,7 @@
 
                 this.async(function () {
                     //  walk(this.gadgetJson, "this.gadgetJson ec ");
-                    this._makeEpiCurveRequeest();
+                    this._makeEpiCurveRequest();
                 });
 
 
@@ -90,7 +90,7 @@
                 this.responseJson = JSON.parse(response.detail.xhr.responseText);
 
             },
-            _makeEpiCurveRequeest: function () {
+            _makeEpiCurveRequest: function () {
 
 
                 /*          logThis("ec sch ---->");
