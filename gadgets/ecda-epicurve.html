@@ -1,6 +1,8 @@
 <dom-module id="ecda-epicurve">
 
-    <link rel="import" href=""/>
+
+    <script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="../bower_components/google-chart/google-chart.html"/>
 
     <style>
         .outdiv {
@@ -13,15 +15,24 @@
 
         <div class="outdiv">
 
-
             <paper-card id="gadgetcard"
                         heading="Gadget {{gadgetJson.gadgetName  }}  "
                         image=""
                         elevation="4 " animated-shadow="true ">
+
                 <div class="card-content ">
+                    <google-chart
+                            id="chart1"
+                            type="stepped-area"
+                            data={{responseJson}}
+                            options={{chartOptions}}>
+
+                    </google-chart>
 
 
-                    <p>
+                </div>
+
+                <!--    <p>
                         <paper-input label="Top "
                                      value="{{gadgetJson.top }}"></paper-input>
                     </p>
@@ -34,6 +45,7 @@
                     </paper-button>
                 </div>
 
+-->
                 <iron-ajax id="gadgetRequestAjax"
                            on-response="handleGadgetResponse"></iron-ajax>
 
@@ -61,17 +73,33 @@
                 },
                 responseJson: {
                     type: Object
+                },
+                chartOptions: {
+                    type: Object,
+                    value: {
+                        hAxis: {title: "default"},
+                        vAxis: {title: "Count"},
+                        explorer: {
+                            maxZoomOut: 2,
+                            maxZoomIn: .01,
+                            zoomDelta: .1,
+                            keepInBounds: true,
+                            actions: ['dragToZoom',
+                                'rightClickToReset']
+                        }
+                    }
                 }
             },
             ready: function () {
 
                 this.async(function () {
-                    //  walk(this.gadgetJson, "this.gadgetJson ec ");
+                    this.$.chart1.options.hAxis.title = this.gadgetJson.dateInterval;
                     this._makeEpiCurveRequest();
                 });
 
 
-            },
+            }
+            ,
             _validate: function () {
 
                 //  ecda.validateSchema('epicurve', this.gadgetJson  )        ;
@@ -81,15 +109,17 @@
                     console.log(epicurveRequestSchema(this.gadgetJson));
                 }
 
-            },
+            }
+            ,
             handleGadgetResponse: function (response) {
 
                 //  walk(JSON.parse(response.detail.xhr.responseText));
-                logThis(response.detail.xhr.responseText);
+                //  logThis(response.detail.xhr.responseText);
 
                 this.responseJson = JSON.parse(response.detail.xhr.responseText);
-
-            },
+                logThis(this.responseJson);
+            }
+            ,
             _makeEpiCurveRequest: function () {
 
 
@@ -105,16 +135,17 @@
                     dateInterval: this.gadgetJson.dateInterval,
                     caseStatusVariable: this.gadgetJson.caseStatusVariable
 
-                }
+                };
 
                 //     walk(this.gadgetJson);
 
-                walk(request);
+                logThis(request);
 
                 tryAjax(this.$.gadgetRequestAjax, "epicurve", request);
 
             }
-        });
+        })
+        ;
     </script>
 
 

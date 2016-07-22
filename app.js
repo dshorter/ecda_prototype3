@@ -1,6 +1,16 @@
 ﻿"use strict";
 
+var ecdaConstants = {
+    Debug: "Debug",
+    Release: "Release"
+};
+
 var ecda = {
+    appConfig: {
+        AZURE_API_PATH: "http://ecdaapi.azurewebsites.net/",
+        LOCAL_API_PATH: "http://localhost/edca.api/",
+        MODE: ecdaConstants.Debug
+    },
     getGadgetElementName: function (gadgetType) {
 
         switch (gadgetType) {
@@ -17,12 +27,7 @@ var ecda = {
                 return "ecda-generic";
                 break;
         }
-    },
-    appConfig: {
-        AZURE_API_PATH: "http://ecdaapi.azurewebsites.net/",
-        LOCAL_API_PATH: "http://localhost/edca.api/"
     }
-
 };
 
 var epicurveRequestSchema = schema({
@@ -68,11 +73,20 @@ var tempConstants = {
 
 function logThis(s) {
 
-    console.log('==== ' + s + ' ====');
+    if (ecda.appConfig.MODE == ecdaConstants.Release)
+        return;
+
+    console.log("===== start log =====");
+    console.log(s);
+    //  console.log("===== end log =====");
 
 }
 
 function walk(obj, desc) {
+
+    if (ecda.appConfig.MODE == ecdaConstants.Release)
+        return;
+
     if (desc === undefined) {
         desc = 'object';
     }
