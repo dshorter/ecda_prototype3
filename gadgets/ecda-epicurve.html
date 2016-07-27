@@ -1,8 +1,10 @@
 <dom-module id="ecda-epicurve">
 
 
-    <script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-    <link rel="import" href="../bower_components/google-chart/google-chart.html"/>
+    <!--  <script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+      <link rel="import" href="../bower_components/google-chart/google-chart.html"/>
+
+  -->
 
     <style>
         .outdiv {
@@ -12,6 +14,9 @@
 
     <template>
 
+        <iron-ajax id="gadgetRequestAjax"
+                   on-response="handleGadgetResponse"></iron-ajax>
+
 
         <div class="outdiv">
 
@@ -19,6 +24,11 @@
                         heading="Gadget {{gadgetJson.gadgetName  }}  "
                         image=""
                         elevation="4 " animated-shadow="true ">
+
+                <paper-toolbar>
+                    <paper-icon-button icon="menu"
+                                       list-toggle></paper-icon-button>
+                </paper-toolbar>
 
                 <div class="card-content ">
                     <google-chart
@@ -46,8 +56,6 @@
                 </div>
 
 -->
-                <iron-ajax id="gadgetRequestAjax"
-                           on-response="handleGadgetResponse"></iron-ajax>
 
                 <paper-material>
                     <div>{{gadgetJson.gadgetType }}</div>
