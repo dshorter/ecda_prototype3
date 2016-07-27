@@ -1,20 +1,32 @@
-﻿<dom-module id="ecda-app2">
+﻿<dom-module id="ecda-app">
 
-    <!--   <link rel="import" href="bower_components/iron-icons/iron-icons.html">
-       <link rel="import" href="bower_components/paper-drawer-panel/paper-drawer-panel.html">
-       <link rel="import" href="bower_components/paper-header-panel/paper-header-panel.html">
-       <link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
-       <link rel="import" href="bower_components/paper-item/paper-item.html">
-       <link rel="import" href="bower_components/paper-menu/paper-menu.html">
-       <link rel="import" href="bower_components/paper-toolbar/paper-toolbar.html">
-       <link rel="import" href="bower_components/paper-spinner/paper-spinner.html">
-       <link rel="import"
-             href="bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+    <link rel="import"
+          href="bower_components/iron-icons/iron-icons.html">
+    <link rel="import"
+          href="bower_components/paper-drawer-panel/paper-drawer-panel.html">
+    <link rel="import"
+          href="bower_components/paper-header-panel/paper-header-panel.html">
+    <link rel="import"
+          href="bower_components/paper-icon-button/paper-icon-button.html">
+    <link rel="import"
+          href="bower_components/paper-item/paper-item.html">
+    <link rel="import"
+          href="bower_components/paper-menu/paper-menu.html">
+    <link rel="import"
+          href="bower_components/paper-toolbar/paper-toolbar.html">
+    <link rel="import"
+          href="bower_components/paper-spinner/paper-spinner.html">
 
-   -->
-    <!--  <link rel="import" href="gadgets/ecda-epicurve.html"/>-->
-    <!--  <link rel="import" type="css" href="stylesheets/ecda.css"/>-->
+    <link rel="import" type="css" href="stylesheets/ecda.css"/>
+
+
     <!---->
+
+    <link rel="import" href="arch/ecda-gadget.html">
+    <link rel="import"
+          href="bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+
+    <link rel="import" href="bower_components/iron-meta/iron-meta.html">
 
     <style include="iron-flex iron-flex-alignment"></style>
 
@@ -40,6 +52,12 @@
             <paper-spinner id="pleasewait_sp" active></paper-spinner>
         </paper-dialog>
 
+        <app-location route="{{route}}" use-hash-as-path></app-location>
+        <app-route route="{{route}}">
+            pattern="/:action"
+            data="{{actionData}}"
+            tail="{{actionTail}}"
+        </app-route>
 
         <iron-ajax id="logonAjax"
                    on-response="handleLogonResponse"></iron-ajax>
@@ -47,6 +65,7 @@
                    on-response="handleCanvasResponse"></iron-ajax>
         <iron-ajax id="canvasListAjax"
                    on-response="handleCanvasListResponse"></iron-ajax>
+
 
         <paper-drawer-panel id="mainDrawerPanel" class="main-drawer-panel"
                             main
@@ -86,6 +105,10 @@
                 <!-- Main Content -->
                 <div class="content">
 
+                    <!-- <ecda-container id="ecda_cont"
+                                     gadgets-collection="{{canvasResponseJson }}">
+                     </ecda-container>-->
+
                     <div>
                         <paper-material>
                             <p>Canvas Name:
@@ -99,11 +122,11 @@
                     </div>
 
                     <div class="layout horizontal wrap" id="xx1">
-                        <!--  <template is="dom-repeat" id="ecdaContTemplate"
-                                    items="{{canvasResponseJson.DashboardCanvas.Gadgets.gadget  }}">
-                              <ecda-gadget id="gadget{{index }}"
-                                           canvas-json="{{item }}"></ecda-gadget>
-                          </template>-->
+                        <template is="dom-repeat" id="ecdaContTemplate"
+                                  items="{{canvasResponseJson.DashboardCanvas.Gadgets.gadget  }}">
+                            <ecda-gadget id="gadget{{index }}"
+                                         canvas-json="{{item }}"></ecda-gadget>
+                        </template>
                     </div>
 
 
@@ -118,7 +141,7 @@
     <script>
 
         Polymer({
-            is: 'ecda-app2',
+            is: 'ecda-app',
 
             properties: {
                 canvasResponseJson: {
@@ -160,12 +183,16 @@
                     canvasid: canvasid
                 };
 
-                logThis('ready from app logon   ');
+
+                logThis('ready from app  ');
 
                 this.$.pleasewait.open();
                 // this.$.pleasewait.active = true;
 
                 tryAjax(this.$.logonAjax, "Login", jsonRequest);
+
+                // git test -- tag1
+
             },
             _computeListWidth: function (isMobile) {
                 // when in mobile screen size, make the list be 100% width to cover the whole screen
@@ -181,6 +208,71 @@
 
             },
             _on_iron_select: function (e) {
+
+
+                Polymer.dom.flush();
+
+
+                var cleanup = document.querySelectorAll(".gadgetclass");
+                cleanup = null;
+
+                var f = false;
+                var toRemove = [];
+                for (x = 0; x < Polymer.dom(this.$.xx1).childNodes.length; x++) {
+                    if (typeof Polymer.dom(this.$.xx1).childNodes[x].id != "undefined") {
+                        if (Polymer.dom(this.$.xx1).childNodes[x].id.indexOf("gadget") >= 0) {
+                            logThis("lets delete   -- " + Polymer.dom(this.$.xx1).childNodes[x].id);
+                            toRemove.push(Polymer.dom(this.$.xx1).childNodes[x]);
+                        }
+                    }
+                }
+
+                logThis("toRemove.length -- " + toRemove.length);
+
+                for (x = 0; x < toRemove.length; x++) {
+                    //  toRemove[x  ].innerHtml =  ""        ;
+                    while (toRemove[x].firstChild) {
+                        toRemove[x].removeChild(toRemove[x].firstChild);
+                        Polymer.dom.flush();
+                        logThis("** removeChild");
+                    }
+                    //  Polymer.dom(this.$.xx1).removeChild(toRemove[x]);
+                }
+
+                /*
+                 while (Polymer.dom(this.$.xx1).childNodes.length > 0 && f == false) {
+                 logThis("ecdaContTemplate -- " + Polymer.dom(this.$.xx1).childNodes[0].id);
+                 //  logThis("ecdaContTemplate -- " + Polymer.dom(this.$.xx1).childNodes[x].value);
+                 if (Polymer.dom(this.$.xx1).childNodes[0].id.indexOf("gadget") >= 0) {
+                 Polymer.dom(this.$.xx1).removeChild(Polymer.dom(this.$.xx1).childNodes[0]);
+                 }
+                 */
+                /*
+                 if (Polymer.dom(this.$.xx1).childNodes[0].id == "ecdaContTemplate") {
+                 f = true;
+                 }
+                 else {
+
+                 }
+                 */
+
+                //  }
+
+                /*
+                 logThis("ecdaContTemplate -- " + Polymer.dom(xx1).childNodes.length);
+                 while (Polymer.dom(this.$.ecdaContTemplate).firstChild) {
+                 logThis("cleanup");
+                 Polymer.dom(this.$.ecdaContTemplate).removeChild(Polymer.dom(this.$.ecdaContTemplate).firstChild);
+                 }
+
+                 */
+
+                //    logThis("myNode.hasChildNodes()  -- " + cleanup)
+                //     logThis("myNode.firstChild.id -- " + cleanup.length)
+
+
+//                  Polymer.dom.flush();
+
 
                 //=======================================================
                 this.$.mainDrawerPanel.closeDrawer();
@@ -213,18 +305,25 @@
                 // this.$.pleasewait.active = false;
 
                 this.canvasListResponseJson = JSON.parse(response.detail.xhr.responseText);
-                logThis(this.canvasListResponseJson);
-                //  walk(this.canvasListResponseJson, "canvasListResponseJson");
+
+                walk(this.canvasListResponseJson, "canvasListResponseJson");
             },
 
             handleCanvasResponse: function (response) {
                 logThis("handleCanvasResponse");
 
 
+                logThis(Polymer.dom(ecdaContTemplate).children.length);
+                //  Polymer.dom(ecdaContTemplate  ).children.clear        ;
+
+                logThis(Polymer.dom(ecdaContTemplate).children.length);
+
+
                 this.$.pleasewait.close();
                 // this.$.pleasewait.active = false;
 
                 var responseCheck = JSON.parse(response.detail.xhr.responseText);
+
                 if (Array.isArray(responseCheck.DashboardCanvas.Gadgets.gadget) == false) {
 
                     var oneGadget = responseCheck.DashboardCanvas.Gadgets.gadget;
@@ -235,48 +334,10 @@
                     logThis("one item array" + " -- " + responseCheck.DashboardCanvas.Gadgets.gadget.length);
                 }
 
+                Polymer.dom.flush();
+
 
                 this.canvasResponseJson = responseCheck;
-
-
-                while (Polymer.dom(this.$.xx1).firstChild) {
-                    Polymer.dom(this.$.xx1).removeChild(Polymer.dom(this.$.xx1).childNodes[0]);
-                    logThis("** removeChild");
-                }
-
-                //===============================================
-
-                // for (var gadgetJson  in    this.canvasResponseJson.DashboardCanvas.Gadgets.gadget) {
-                for (x = 0; x < this.canvasResponseJson.DashboardCanvas.Gadgets.gadget.length; x++) {
-
-                    var gadgetJson = this.canvasResponseJson.DashboardCanvas.Gadgets.gadget[x];
-
-                    //  walk(gadgetJson);
-
-                    var thisElementName = ecda.getGadgetElementName(gadgetJson.gadgetType);
-
-                    logThis("gadgetJson.gadgetType -- " + gadgetJson.gadgetType);
-
-                    var thisGadget = document.createElement(thisElementName);
-                    thisGadget.gadgetJson = gadgetJson;
-                    thisGadget.className = "gadgetclass";
-
-
-                    //  logThis("gadgetJson  " + gadgetJson);
-                    //  logThis(gadgetJson, "gadgetJson ");
-
-                    //  Polymer.dom(this.$.gadgetcard).insertBefore(thisGadget, this.$.cardactions);
-                    //    Polymer.dom(this.$.placeholder).innerHTML = '';
-
-                    //  Polymer.dom(this.$.placeApple).insertBefore(thisGadget, this.$.filltohere);
-
-                    Polymer.dom(this.$.xx1).appendChild(thisGadget);
-
-                }
-
-                //===============================================
-
-
             },
             handleLogonResponse: function (e, responseX) {
 
@@ -286,10 +347,14 @@
 
                 var responseJson = JSON.parse(e.detail.xhr.responseText);
 
-                gUserJson.User = responseJson;
-                console.log('cont gUserJson ---->  ' + gUserJson.User);
+                if (gUserJson) {
 
-                //  walk(gUserJson, "gUserJson");
+                    gUserJson.User = responseJson;
+                    console.log('cont gUserJson ---->  ' + gUserJson.User);
+
+                    walk(gUserJson, "gUserJson");
+
+                }
 
                 //======================
                 var UserID = gUserJson.User.UserID;
@@ -301,7 +366,7 @@
 
                 tryAjax(this.$.canvasListAjax, "CanvasList", jsonUser);
 
-                //  logThis(this.$.canvasListAjax.body);
+                logThis(this.$.canvasListAjax.body);
             },
             scrollHandler: function (event) {
                 var scroller = event.detail.target;
