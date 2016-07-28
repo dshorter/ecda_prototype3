@@ -1,6 +1,7 @@
+
 var gulp = require('gulp');
 var vulcanize = require('gulp-vulcanize');
-var minify = require('gulp-minify');
+var jshint = require('gulp-jshint');
 var minifyInline = require('gulp-minify-inline');
 
 gulp.task('default', function () {
@@ -14,14 +15,16 @@ gulp.task('default', function () {
             stripComments: true
         }))
         .pipe(minifyInline())
-        .pipe(gulp.dest('dest'));
+        .pipe(gulp.dest('ecda_release'));
 });
 
-gulp.task('compress', function () {
-    gulp.src('*.*')
-        .pipe(minify({
-            exclude: ['tasks'],
-            ignoreFiles: ['.combo.js', '-min.js']
-        }))
-        .pipe(gulp.dest('dist'))
+gulp.task('lint', function () {
+    return gulp.src('*.*')
+        .pipe(jshint())
+        .pipe(jshint.reporter('default'));
 });
+
+
+
+
+
