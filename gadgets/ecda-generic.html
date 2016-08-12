@@ -4,11 +4,37 @@
     <template>
 
 
-        <link rel="import" href="">
+        <style>
+            paper-card:hover {
+                box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14),
+                0 3px 14px 2px rgba(0, 0, 0, 0.12),
+                0 5px 5px -3px rgba(0, 0, 0, 0.4);
+            }
+        </style>
 
-        <paper-material>
-            <div> Generic {{canvasJson2.gadgetType }}</div>
-        </paper-material>
+        <div class="outdiv">
+
+            <paper-card id="gadgetcard"
+                        image=""
+                        elevation="1 " animated-shadow="true ">
+
+                <paper-toolbar>
+                    <paper-icon-button icon="menu" id="menu"
+                                       on-tap="_toggle()"
+                                       style="float:right;"></paper-icon-button>
+                    <span class="title">{{gadgetJson.gadgetTitle  }} </span>
+                    <paper-icon-button icon="hardware:keyboard-arrow-up" id="updownarrow"
+                                       title="more info"
+                                       on-tap="_toggle()" style="float:right;">
+                    </paper-icon-button>
+                    <paper-icon-button icon="refresh"></paper-icon-button>
+                    <paper-icon-button icon="add">+</paper-icon-button>
+
+                </paper-toolbar>
+
+                <img src="../images/soon3.png"/>
+            </paper-card>
+        </div>
 
 
     </template>
@@ -16,16 +42,54 @@
         Polymer({
             is: 'ecda-generic',
             properties: {
+                gadgetJson: {
+                    type: Object,
+                    /*value: "Json Here",*/
+                    notify: true,
+                    observer: '_validate'
+                },
                 canvasJson2: {
                     type: String,
                     value: "Json Here",
                     notify: true
                 }
             },
+
+
+            attached: function () {
+
+
+                xx = loremIpsum();
+                logThis(xx);
+                this.gadgetJson.gadgetTitle += xx;
+                logThis(this.gadgetJson.gadgetTitle);
+
+            },
             ready: function () {
                 this.async(function () {
+
+//                    //         this.gadgetJson.gadgetTitle += loremIpsum();
+//                    xx =  loremIpsum(  )        ;
+//                    logThis( xx  )        ;
+//                    this.gadgetJson.gadgetTitle +=  xx        ;
+//
+
                     walk(this.canvasJson, "this.canvasJson");
                 })
+
+
+            },
+            _validate: function () {
+
+                //  ecda.validateSchema('epicurve', this.gadgetJson  )        ;
+
+
+                if (this.gadgetJson != "Json Here") {
+                    logThis("ec sch from o   ---->");
+                    // check schema
+                    //  console.log(epicurveRequestSchema(this.gadgetJson));
+                }
+
             }
         });
     </script>

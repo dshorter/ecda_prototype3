@@ -5,10 +5,14 @@
   "dependencies": {
     "browser-sync": "^2.12.8",
     "gulp": "^3.9.1",
+    "gulp-bower": "0.0.13",
     "gulp-jshint": "^2.0.1",
     "gulp-minify-inline": "^0.2.1",
+    "gulp-polylint": "^1.0.2",
     "gulp-vulcanize": "^6.1.0",
-    "js-schema": "^1.0.1"
+    "js-schema": "^1.0.1",
+    "polylint": "^2.10.1",
+    "polymer-lint": "^0.8.1"
   },
   "devDependencies": {},
   "scripts": {

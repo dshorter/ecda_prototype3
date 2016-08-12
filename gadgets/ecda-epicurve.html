@@ -2,30 +2,59 @@
 
 
     <style>
-        .outdiv {
-            margin: 20px;
+        paper-card:hover {
+            box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14),
+            0 3px 14px 2px rgba(0, 0, 0, 0.12),
+            0 5px 5px -3px rgba(0, 0, 0, 0.4);
         }
     </style>
 
     <template>
 
+        <style include="iron-flex iron-flex-alignment"></style>
+
         <iron-ajax id="gadgetRequestAjax"
                    on-response="handleGadgetResponse"></iron-ajax>
-
+        <!--   heading="Gadget {{gadgetJson.gadgetName  }}  "-->
 
         <div class="outdiv">
 
             <paper-card id="gadgetcard"
-                        heading="Gadget {{gadgetJson.gadgetName  }}  "
                         image=""
-                        elevation="4 " animated-shadow="true ">
+                        elevation="1 " animated-shadow="true ">
 
                 <paper-toolbar>
-                    <paper-icon-button icon="menu"
-                                       list-toggle></paper-icon-button>
-                </paper-toolbar>
+                    <paper-icon-button icon="menu" id="menu"
+                                       on-tap="_toggle()"
+                                       style="float:right;"></paper-icon-button>
+                    <span class="title">{{gadgetJson.gadgetName  }} </span>
+                    <paper-icon-button icon="hardware:keyboard-arrow-up" id="updownarrow"
+                                       title="more info"
+                                       on-tap="_toggle()" style="float:right;">
+                    </paper-icon-button>
+                    <paper-icon-button icon="refresh"></paper-icon-button>
+                    <paper-icon-button icon="add">+</paper-icon-button>
 
-                <div class="card-content ">
+                </paper-toolbar>
+                <iron-collapse id="editchart" style="width:100%;">
+                    <paper-dropdown-menu label="Onset Date Field " elevation="4 ">
+                        <paper-listbox class="dropdown-content">
+                            <paper-item>Croissant</paper-item>
+                            <paper-item>Donut</paper-item>
+                            <paper-item>Financier</paper-item>
+                            <paper-item>Madeleine</paper-item>
+                        </paper-listbox>
+                    </paper-dropdown-menu>
+                    <paper-dropdown-menu label="Case Status Field ">
+                        <paper-listbox class="dropdown-content">
+                            <paper-item>Croissant</paper-item>
+                            <paper-item>Donut</paper-item>
+                            <paper-item>Financier</paper-item>
+                            <paper-item>Madeleine</paper-item>
+                        </paper-listbox>
+                    </paper-dropdown-menu>
+                </iron-collapse>
+                <div class="layout horizontal wrap">
                     <google-chart
                             id="chart1"
                             type="stepped-area"
@@ -37,20 +66,6 @@
 
                 </div>
 
-                <!--    <p>
-                        <paper-input label="Top "
-                                     value="{{gadgetJson.top }}"></paper-input>
-                    </p>
-
-                    <paper-slider min="10 " max="200 "
-                                  value="110 "></paper-slider>
-                    <paper-input label="Enter text here "></paper-input>
-                    <paper-button dialog-confirm autofocus
-                                  on-click="_makeEpiCurveRequest">OK
-                    </paper-button>
-                </div>
-
--->
 
                 <paper-material>
                     <div>{{gadgetJson.gadgetType }}</div>
@@ -93,22 +108,35 @@
                     }
                 }
             },
+            listeners: {
+                'menu.tap': '_toggle',
+                'updownarrow.tap': '_toggle'
+            },
             ready: function () {
 
                 this.async(function () {
-                    this.$.chart1.options.hAxis.title = this.gadgetJson.dateInterval;
+                    //  this.$.chart1.options.hAxis.title = this.gadgetJson.dateVariable;
                     this._makeEpiCurveRequest();
                 });
 
 
-            }
-            ,
+            },
+            _toggle: function () {
+                var moreInfo = this.$.editchart;     //          document.getElementById('more-info');
+                var iconButton = Polymer.dom(event).localTarget;
+                if (iconButton.icon != 'menu') {
+                    iconButton.icon = editchart.opened ? 'hardware:keyboard-arrow-up'
+                            : 'hardware:keyboard-arrow-down';
+                }
+                moreInfo.toggle();
+            },
             _validate: function () {
 
                 //  ecda.validateSchema('epicurve', this.gadgetJson  )        ;
 
                 if (this.gadgetJson != "Json Here") {
                     logThis("ec sch from o   ---->");
+                    // check schema
                     console.log(epicurveRequestSchema(this.gadgetJson));
                 }
 
@@ -120,11 +148,12 @@
                 //  logThis(response.detail.xhr.responseText);
 
                 this.responseJson = JSON.parse(response.detail.xhr.responseText);
+                this.$.chart1.options.hAxis.title = this.gadgetJson.dateVariable;
+
                 logThis(this.responseJson);
             }
             ,
             _makeEpiCurveRequest: function () {
-
 
                 /*          logThis("ec sch ---->");
                  console.log(epicurveRequestSchema(this.gadgetJson));
