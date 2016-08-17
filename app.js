@@ -9,7 +9,7 @@ var ecda = {
     appConfig: {
         AZURE_API_PATH: "http://ecdaapi.azurewebsites.net/",
         LOCAL_API_PATH: "http://localhost/edca.api/",
-        MODE: ecdaConstants.Debug
+        MODE: ecdaConstants.Release
     },
     getGadgetElementName: function (gadgetType) {
 

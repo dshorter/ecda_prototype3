@@ -32,7 +32,12 @@
 
                 </paper-toolbar>
 
-                <img src="../images/soon3.png"/>
+                <img src="../images/soon3.png" id="soon"/>
+                <script>
+                    //                    var pic = document.getElementById("soon");
+                    //                    pic.style.height = "400px";
+                    //                    pic.style.width = "400px";
+                </script>
             </paper-card>
         </div>
 
@@ -63,6 +68,14 @@
                 logThis(xx);
                 this.gadgetJson.gadgetTitle += xx;
                 logThis(this.gadgetJson.gadgetTitle);
+
+                var mi = 400;
+                var max = 700;
+
+                var hw = Math.floor(Math.random() * (max - mi )) + mi
+                var pic = this.$.soon;
+                pic.style.height = hw + "px";
+                pic.style.width = hw + "px";
 
             },
             ready: function () {

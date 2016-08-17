@@ -12,7 +12,10 @@ gulp.task('polylint', function () {
         .pipe(polylint.reporter(polylint.reporter.stylishlike));
 });
 
-gulp.task('default', ['bower_update'], function () {
+
+// todo -  add pic folder to ecda_release
+
+gulp.task('default', function () {
     return gulp.src('start.html')
         .pipe(vulcanize({
             abspath: '',
